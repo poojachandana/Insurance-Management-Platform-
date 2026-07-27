@@ -1,0 +1,18 @@
+# Backend
+backend/target/
+backend/data/
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/reports/*
+!backend/reports/.gitkeep
+*.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
