@@ -15,10 +15,10 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findByClaimId(Long claimId);
 
     @Query("select d from Document d where " +
-           "(:agentEmail is null or d.customer.registeredByAgentEmail = :agentEmail) and " +
-           "(:type is null or d.documentType = :type) and " +
-           "(:search is null or lower(d.fileName) like lower(concat('%', :search, '%')) " +
-           "or lower(d.customer.name) like lower(concat('%', :search, '%')))")
+            "(:agentEmail is null or d.customer.registeredByAgentEmail = :agentEmail) and " +
+            "(:type is null or d.documentType = :type) and " +
+            "(:search is null or lower(d.fileName) like lower(concat('%', cast(:search as string), '%')) " +
+            "or lower(d.customer.name) like lower(concat('%', cast(:search as string), '%')))")
     Page<Document> filter(@Param("agentEmail") String agentEmail, @Param("type") DocumentType type,
-                           @Param("search") String search, Pageable pageable);
+                          @Param("search") String search, Pageable pageable);
 }

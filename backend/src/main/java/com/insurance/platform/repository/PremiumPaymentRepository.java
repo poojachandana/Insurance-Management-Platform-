@@ -18,12 +18,12 @@ public interface PremiumPaymentRepository extends JpaRepository<PremiumPayment, 
     List<PremiumPayment> findByDueDateBeforeAndPaymentStatusNot(LocalDate date, PaymentStatus status);
 
     @Query("select p from PremiumPayment p where " +
-           "(:agentEmail is null or p.policy.customer.registeredByAgentEmail = :agentEmail) and " +
-           "(:status is null or p.paymentStatus = :status) and " +
-           "(:search is null or lower(p.policy.policyNumber) like lower(concat('%', :search, '%')) " +
-           "or lower(p.policy.customer.name) like lower(concat('%', :search, '%')))")
+            "(:agentEmail is null or p.policy.customer.registeredByAgentEmail = :agentEmail) and " +
+            "(:status is null or p.paymentStatus = :status) and " +
+            "(:search is null or lower(p.policy.policyNumber) like lower(concat('%', cast(:search as string), '%')) " +
+            "or lower(p.policy.customer.name) like lower(concat('%', cast(:search as string), '%')))")
     Page<PremiumPayment> filter(@Param("agentEmail") String agentEmail, @Param("status") PaymentStatus status,
-                                 @Param("search") String search, Pageable pageable);
+                                @Param("search") String search, Pageable pageable);
 
     @Query("select p from PremiumPayment p where (:agentEmail is null or p.policy.customer.registeredByAgentEmail = :agentEmail)")
     List<PremiumPayment> findScoped(@Param("agentEmail") String agentEmail);

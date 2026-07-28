@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
 
     @Query("select a from AuditLog a where " +
-           "(:entityType is null or a.entityType = :entityType) and " +
-           "(:actorEmail is null or lower(a.actorEmail) like lower(concat('%', :actorEmail, '%')))")
+            "(:entityType is null or a.entityType = :entityType) and " +
+            "(:actorEmail is null or lower(a.actorEmail) like lower(concat('%', cast(:actorEmail as string), '%')))")
     Page<AuditLog> filter(@Param("entityType") String entityType,
-                           @Param("actorEmail") String actorEmail,
-                           Pageable pageable);
+                          @Param("actorEmail") String actorEmail,
+                          Pageable pageable);
 }

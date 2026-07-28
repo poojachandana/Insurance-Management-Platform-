@@ -17,23 +17,18 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByUser_Id(Long userId);
 
-    /**
-     * Unified lookup used by both Admin (agentEmail = null -> sees everyone) and
-     * Agent (agentEmail = their own email -> sees only customers they registered)
-     * views, with an optional keyword search layered on top.
-     */
     @Query("select c from Customer c where " +
-           "(:agentEmail is null or c.registeredByAgentEmail = :agentEmail) and " +
-           "(:keyword is null or lower(c.name) like lower(concat('%', :keyword, '%')) " +
-           "or lower(c.email) like lower(concat('%', :keyword, '%')) " +
-           "or c.phone like concat('%', :keyword, '%'))")
+            "(:agentEmail is null or c.registeredByAgentEmail = :agentEmail) and " +
+            "(:keyword is null or lower(c.name) like lower(concat('%', cast(:keyword as string), '%')) " +
+            "or lower(c.email) like lower(concat('%', cast(:keyword as string), '%')) " +
+            "or c.phone like concat('%', cast(:keyword as string), '%'))")
     List<Customer> findScoped(@Param("agentEmail") String agentEmail, @Param("keyword") String keyword);
 
     @Query("select c from Customer c where " +
-           "(:agentEmail is null or c.registeredByAgentEmail = :agentEmail) and " +
-           "(:keyword is null or lower(c.name) like lower(concat('%', :keyword, '%')) " +
-           "or lower(c.email) like lower(concat('%', :keyword, '%')) " +
-           "or c.phone like concat('%', :keyword, '%'))")
+            "(:agentEmail is null or c.registeredByAgentEmail = :agentEmail) and " +
+            "(:keyword is null or lower(c.name) like lower(concat('%', cast(:keyword as string), '%')) " +
+            "or lower(c.email) like lower(concat('%', cast(:keyword as string), '%')) " +
+            "or c.phone like concat('%', cast(:keyword as string), '%'))")
     Page<Customer> findScoped(@Param("agentEmail") String agentEmail, @Param("keyword") String keyword, Pageable pageable);
 
     long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
