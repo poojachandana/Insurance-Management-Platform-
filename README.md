@@ -1,7 +1,7 @@
 # 🛡️ Insurance Management Platform
 
-**🔗 Live Demo:** [YOUR-VERCEL-URL-HERE]
-**⚙️ Backend API:** https://insurance-management-platform-u55s.onrender.com
+**🔗 Live Demo:** https://insurance-management-platform-psi.vercel.app/
+
 
 > Note: the backend is hosted on Render's free tier, which spins down after 15 minutes of inactivity. The first request after idling may take 30–60 seconds to respond while it wakes up.
 
